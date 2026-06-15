@@ -1,0 +1,11 @@
+.git
+node_modules
+.next
+.env*
+.husky
+.storybook
+e2e
+playwright-report
+test-results
+coverage
+*.log
