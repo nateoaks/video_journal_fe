@@ -18,7 +18,7 @@ export async function LibraryPage() {
           {clips.map((clip) => (
             <li key={clip.id}>
               <Card className="px-4 py-3" padding="none">
-                <p className="text-sm font-medium">{clip.title}</p>
+                <p className="text-sm font-medium">{clip.original_key}</p>
                 <p className="text-muted-foreground text-xs">{clip.status}</p>
               </Card>
             </li>

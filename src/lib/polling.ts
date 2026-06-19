@@ -2,7 +2,5 @@
 export const POLL_INTERVAL_MS = 4000
 
 export function shouldPoll(clips: { status: string }[]): boolean {
-  return clips.some(
-    (c) => c.status === 'processing' || c.status === 'uploading'
-  )
+  return clips.some((c) => c.status === 'processing')
 }

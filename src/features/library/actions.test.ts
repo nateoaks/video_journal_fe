@@ -25,9 +25,9 @@ describe('updateClip', () => {
     vi.clearAllMocks()
   })
 
-  it('returns error for empty title', async () => {
+  it('returns error for invalid trim_in_s (non-numeric)', async () => {
     const formData = new FormData()
-    formData.set('title', '')
+    formData.set('trim_in_s', 'not-a-number')
 
     const result = await updateClip('clip_1', undefined, formData)
 
@@ -35,22 +35,35 @@ describe('updateClip', () => {
     expect(mockPatchClip).not.toHaveBeenCalled()
   })
 
-  it('calls patchClip and revalidatePath with valid formData and returns {}', async () => {
+  it('calls patchClip and revalidatePath with valid trim values and returns {}', async () => {
     mockPatchClip.mockResolvedValueOnce({
       id: 'clip_1',
-      title: 'Updated Title',
       status: 'ready',
-      createdAt: '2024-01-01T00:00:00Z',
+      uploaded_at: '2024-01-01T00:00:00Z',
+      original_key: 'key',
+      normalized_key: null,
+      filmstrip_key: null,
+      duration_s: null,
+      width: null,
+      height: null,
+      codec_name: null,
+      recorded_at: null,
+      trim_in_s: 1.5,
+      trim_out_s: 10.0,
+      sort_index: 0,
+      error_message: null,
     })
 
     const formData = new FormData()
-    formData.set('title', 'Updated Title')
+    formData.set('trim_in_s', '1.5')
+    formData.set('trim_out_s', '10.0')
 
     const result = await updateClip('clip_1', undefined, formData)
 
     expect(result.error).toBeUndefined()
     expect(mockPatchClip).toHaveBeenCalledWith('clip_1', {
-      title: 'Updated Title',
+      trim_in_s: 1.5,
+      trim_out_s: 10.0,
     })
     expect(mockRevalidatePath).toHaveBeenCalledWith('/library')
   })

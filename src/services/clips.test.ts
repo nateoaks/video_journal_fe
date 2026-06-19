@@ -22,42 +22,42 @@ describe('clips service', () => {
     process.env.BACKEND_URL = 'http://localhost:8000'
   })
 
-  it('listClips calls request with /clips', async () => {
-    mockRequest.mockResolvedValueOnce({ items: [] })
+  it('listClips calls request with /api/v1/clips', async () => {
+    mockRequest.mockResolvedValueOnce([])
     await listClips()
-    expect(mockRequest).toHaveBeenCalledWith('/clips')
+    expect(mockRequest).toHaveBeenCalledWith('/api/v1/clips')
   })
 
-  it('getClip calls request with /clips/:id', async () => {
+  it('getClip calls request with /api/v1/clips/:id', async () => {
     mockRequest.mockResolvedValueOnce({ id: 'clip_1' })
     await getClip('clip_1')
-    expect(mockRequest).toHaveBeenCalledWith('/clips/clip_1')
+    expect(mockRequest).toHaveBeenCalledWith('/api/v1/clips/clip_1')
   })
 
   it('patchClip calls request with PATCH method and correct path', async () => {
-    mockRequest.mockResolvedValueOnce({ id: 'clip_1', title: 'New Title' })
-    await patchClip('clip_1', { title: 'New Title' })
-    expect(mockRequest).toHaveBeenCalledWith('/clips/clip_1', {
+    mockRequest.mockResolvedValueOnce({ id: 'clip_1' })
+    await patchClip('clip_1', { trim_in_s: 1.5 })
+    expect(mockRequest).toHaveBeenCalledWith('/api/v1/clips/clip_1', {
       method: 'PATCH',
-      body: JSON.stringify({ title: 'New Title' }),
+      body: JSON.stringify({ trim_in_s: 1.5 }),
     })
   })
 
   it('deleteClip calls request with DELETE method and correct path', async () => {
     mockRequest.mockResolvedValueOnce(undefined)
     await deleteClip('clip_1')
-    expect(mockRequest).toHaveBeenCalledWith('/clips/clip_1', {
+    expect(mockRequest).toHaveBeenCalledWith('/api/v1/clips/clip_1', {
       method: 'DELETE',
     })
   })
 
   it('buildClipVideoUrl returns correct URL', () => {
     const url = buildClipVideoUrl('clip_1')
-    expect(url).toBe('http://localhost:8000/clips/clip_1/video')
+    expect(url).toBe('http://localhost:8000/api/v1/clips/clip_1/video')
   })
 
   it('buildClipFilmstripUrl returns correct URL', () => {
     const url = buildClipFilmstripUrl('clip_1')
-    expect(url).toBe('http://localhost:8000/clips/clip_1/filmstrip')
+    expect(url).toBe('http://localhost:8000/api/v1/clips/clip_1/filmstrip')
   })
 })
