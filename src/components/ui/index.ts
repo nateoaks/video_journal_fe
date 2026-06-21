@@ -9,3 +9,9 @@ export type { SpinnerProps } from './Spinner'
 
 export { Modal } from './Modal'
 export type { ModalProps } from './Modal'
+
+export { Dropzone, dropzoneVariants } from './Dropzone'
+export type { DropzoneProps } from './Dropzone'
+
+export { UploadItem, uploadItemVariants } from './UploadItem'
+export type { UploadItemProps } from './UploadItem'

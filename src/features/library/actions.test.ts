@@ -1,4 +1,11 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import {
+  describe,
+  it,
+  expect,
+  vi,
+  beforeEach,
+  type MockedFunction,
+} from 'vitest'
 
 vi.mock('@/services', () => ({
   patchClip: vi.fn(),
@@ -13,9 +20,13 @@ import { patchClip, deleteClip as deleteClipService } from '@/services'
 import { revalidatePath } from 'next/cache'
 import { ApiError } from '@/types/api'
 
-const mockPatchClip = vi.mocked(patchClip)
-const mockDeleteClipService = vi.mocked(deleteClipService)
-const mockRevalidatePath = vi.mocked(revalidatePath)
+const mockPatchClip = patchClip as MockedFunction<typeof patchClip>
+const mockDeleteClipService = deleteClipService as MockedFunction<
+  typeof deleteClipService
+>
+const mockRevalidatePath = revalidatePath as MockedFunction<
+  typeof revalidatePath
+>
 
 // Actions use 'use server' so we import them after mocks
 const { updateClip, deleteClip } = await import('./actions')

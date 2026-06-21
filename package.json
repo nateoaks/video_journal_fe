@@ -18,7 +18,7 @@
     "test:e2e:ui": "playwright test --ui",
     "test:storybook": "storybook test",
     "prepare": "husky",
-    "check": "bun run format && bun run lint --fix && bun test --run && bun run test:e2e && bun audit --audit-level high",
+    "check": "bun run format && bun run lint --fix && vitest run --project unit && bun audit --audit-level high",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },

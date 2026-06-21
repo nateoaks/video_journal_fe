@@ -20,6 +20,7 @@ export default defineConfig({
       {
         extends: true,
         test: {
+          name: 'unit',
           environment: 'happy-dom',
           globals: true,
           setupFiles: ['./src/test/setup.ts'],

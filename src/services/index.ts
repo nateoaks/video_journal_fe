@@ -5,4 +5,5 @@ export {
   deleteClip,
   buildClipVideoUrl,
   buildClipFilmstripUrl,
+  uploadClip,
 } from './clips'

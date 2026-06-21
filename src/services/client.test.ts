@@ -1,7 +1,15 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import {
+  describe,
+  it,
+  expect,
+  vi,
+  beforeEach,
+  afterEach,
+  type MockedFunction,
+} from 'vitest'
 import { ApiError } from '@/types/api'
 
-// Mock loggedFetch
+// vi.mock must use the same path that client.ts uses when importing loggedFetch
 vi.mock('@/lib/fetch', () => ({
   loggedFetch: vi.fn(),
 }))
@@ -9,7 +17,7 @@ vi.mock('@/lib/fetch', () => ({
 import { loggedFetch } from '@/lib/fetch'
 import { request } from './client'
 
-const mockLoggedFetch = vi.mocked(loggedFetch)
+const mockLoggedFetch = loggedFetch as MockedFunction<typeof loggedFetch>
 
 describe('request', () => {
   const originalEnv = process.env.BACKEND_URL
