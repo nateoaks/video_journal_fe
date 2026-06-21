@@ -48,5 +48,6 @@ storybook-static
 playwright-report
 test-results
 
-# Claude worktrees
+# Claude files
+.claude/projects
 .claude/worktrees
