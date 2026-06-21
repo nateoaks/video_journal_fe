@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__claude_ai_Linear__get_issue",
+      "mcp__claude_ai_Linear__save_comment",
+      "mcp__claude_ai_Linear__list_documents",
+      "mcp__claude_ai_Linear__save_issue",
+      "mcp__claude_ai_Linear__list_issue_statuses",
+      "mcp__claude_ai_Linear__get_document",
+      "mcp__claude_ai_Linear__save_document",
+      "WebFetch(domain:linear.app)",
+      "WebFetch(domain:127.0.0.1)",
+      "WebFetch(domain:localhost)",
+      "WebSearch",
+      "Bash(git *)",
+      "Bash(git worktree *)",
+      "Bash(gh pr *)",
+      "Bash(bun add *)",
+      "Bash(bun run *)",
+      "Bash(bun test *)",
+      "Bash(bunx tsc *)",
+      "Bash(bunx vitest *)",
+      "Bash(bunx eslint *)",
+      "Bash(bun x *)",
+      "Bash(vitest run *)",
+      "Bash(./node_modules/.bin/tsc --noEmit)",
+      "Bash(node -e \"const z = require\\('zod'\\); const s = z.object\\({title: z.string\\(\\).min\\(1\\)}\\); const r = s.safeParse\\({title: ''}\\); console.log\\(JSON.stringify\\(r.error, null, 2\\)\\)\")",
+      "Bash(node -e \"const z = require\\('zod'\\); const s = z.object\\({title: z.string\\(\\).min\\(1\\)}\\); const r = s.safeParse\\({title: ''}\\); const err = r.error; console.log\\(Object.keys\\(err\\)\\); console.log\\(err.issues\\)\")",
+      "Bash(./node_modules/.bin/vitest run *)",
+      "Bash(cat vitest.config.ts)",
+      "Bash(cat vitest.config.mts)",
+      "Bash(curl -s http://localhost:8000/openapi.json)",
+      "Bash(mkdir *)",
+      "Bash(echo \"Exit: $?\")",
+      "Bash(npx tsc *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
+      "Bash(echo \"EXIT: $?\")"
+    ]
+  }
+}
