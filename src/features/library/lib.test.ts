@@ -51,7 +51,11 @@ describe('sortClips', () => {
 
 describe('effectiveDuration', () => {
   it('returns duration_s when no trim fields are set', () => {
-    const clip = makeClip({ duration_s: 120, trim_in_s: null, trim_out_s: null })
+    const clip = makeClip({
+      duration_s: 120,
+      trim_in_s: null,
+      trim_out_s: null,
+    })
     expect(effectiveDuration(clip)).toBe(120)
   })
 
@@ -71,7 +75,11 @@ describe('effectiveDuration', () => {
   })
 
   it('returns null when duration_s is null and no trim fields', () => {
-    const clip = makeClip({ duration_s: null, trim_in_s: null, trim_out_s: null })
+    const clip = makeClip({
+      duration_s: null,
+      trim_in_s: null,
+      trim_out_s: null,
+    })
     expect(effectiveDuration(clip)).toBeNull()
   })
 })

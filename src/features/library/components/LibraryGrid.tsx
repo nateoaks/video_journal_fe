@@ -14,8 +14,7 @@ export function LibraryGrid({ clips }: LibraryGridProps) {
       {clips.map((clip) => {
         const duration = formatDuration(effectiveDuration(clip))
         const recordedDate = formatRecordedDate(clip.recorded_at)
-        const isTrimmed =
-          clip.trim_in_s != null && clip.trim_out_s != null
+        const isTrimmed = clip.trim_in_s != null && clip.trim_out_s != null
 
         const card = (
           <ClipCard
@@ -34,7 +33,7 @@ export function LibraryGrid({ clips }: LibraryGridProps) {
             <Link
               key={clip.id}
               href={`/library/${clip.id}`}
-              className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-lg"
+              className="focus-visible:ring-ring block rounded-lg focus-visible:ring-2 focus-visible:outline-none"
             >
               {card}
             </Link>

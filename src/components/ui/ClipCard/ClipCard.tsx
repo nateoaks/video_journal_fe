@@ -68,15 +68,21 @@ export function ClipCard({
 
         {/* Duration badge — bottom-left overlay */}
         <div className="absolute bottom-1.5 left-1.5">
-          <Badge variant="outline" className="bg-black/60 text-white border-transparent">
+          <Badge
+            variant="outline"
+            className="border-transparent bg-black/60 text-white"
+          >
             {duration}
           </Badge>
         </div>
 
         {/* Trimmed indicator — bottom-right */}
         {isTrimmed && (
-          <div className="absolute bottom-1.5 right-1.5">
-            <Badge variant="outline" className="bg-black/60 text-white border-transparent">
+          <div className="absolute right-1.5 bottom-1.5">
+            <Badge
+              variant="outline"
+              className="border-transparent bg-black/60 text-white"
+            >
               Trimmed
             </Badge>
           </div>

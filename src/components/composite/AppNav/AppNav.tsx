@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 const navItems = [
   { href: '/library', label: 'Library' },
   { href: '/timeline', label: 'Timeline' },
+  { href: '/upload', label: 'Upload' },
 ]
 
 export function AppNav() {
