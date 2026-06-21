@@ -137,13 +137,15 @@ export function UploadDropzone() {
       })
     }
 
+    if (dropVariantTimerRef.current) clearTimeout(dropVariantTimerRef.current)
     if (hasRejected) {
-      if (dropVariantTimerRef.current) clearTimeout(dropVariantTimerRef.current)
       setDropVariant('rejected')
       dropVariantTimerRef.current = setTimeout(
         () => setDropVariant('idle'),
         2000
       )
+    } else {
+      setDropVariant('idle')
     }
 
     if (newItems.length === 0) return
@@ -173,12 +175,6 @@ export function UploadDropzone() {
     if (!e.currentTarget.contains(e.relatedTarget as Node)) {
       setDropVariant('idle')
     }
-  }
-
-  function handleDrop() {
-    // Dropzone calls onFiles before this; reset variant after a short delay
-    if (dropVariantTimerRef.current) clearTimeout(dropVariantTimerRef.current)
-    dropVariantTimerRef.current = setTimeout(() => setDropVariant('idle'), 100)
   }
 
   function handleRetry(id: string) {
@@ -217,7 +213,6 @@ export function UploadDropzone() {
         rejectedDescription="Please upload .mp4 or .mov files"
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
       />
 
       {files.length > 0 && (

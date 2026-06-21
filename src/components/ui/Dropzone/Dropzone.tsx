@@ -76,6 +76,7 @@ export function Dropzone({
 
   return (
     <div
+      {...props}
       role="button"
       tabIndex={0}
       aria-label="Drop video files here or click to browse"
@@ -84,7 +85,6 @@ export function Dropzone({
       onDrop={handleDrop}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
-      {...props}
     >
       <input
         ref={inputRef}
