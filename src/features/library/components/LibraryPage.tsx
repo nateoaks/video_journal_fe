@@ -1,7 +1,28 @@
 import { listClips } from '../queries'
 import { shouldPoll } from '@/lib/polling'
+import { sortClips } from '../lib'
+import { EmptyState } from '@/components/composite'
 import { LibraryPoller } from './LibraryPoller'
-import { Card } from '@/components/ui'
+import { LibraryGrid } from './LibraryGrid'
+
+function VideoIcon() {
+  return (
+    <svg
+      className="h-12 w-12"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.5}
+        d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+      />
+    </svg>
+  )
+}
 
 export async function LibraryPage() {
   const clips = await listClips()
@@ -12,18 +33,13 @@ export async function LibraryPage() {
       <h1 className="mb-6 text-2xl font-semibold">Library</h1>
       <LibraryPoller active={active} />
       {clips.length === 0 ? (
-        <p className="text-muted-foreground text-sm">No clips yet.</p>
+        <EmptyState
+          icon={<VideoIcon />}
+          title="No clips yet"
+          description="Upload your first video to get started."
+        />
       ) : (
-        <ul className="flex flex-col gap-3">
-          {clips.map((clip) => (
-            <li key={clip.id}>
-              <Card className="px-4 py-3" padding="none">
-                <p className="text-sm font-medium">{clip.original_key}</p>
-                <p className="text-muted-foreground text-xs">{clip.status}</p>
-              </Card>
-            </li>
-          ))}
-        </ul>
+        <LibraryGrid clips={sortClips(clips)} />
       )}
     </main>
   )
