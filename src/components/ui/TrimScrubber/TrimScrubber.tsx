@@ -55,6 +55,7 @@ export function TrimScrubber({
   onTrimInChange,
   onTrimOutChange,
   className,
+  style,
   ...props
 }: TrimScrubberProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -139,7 +140,9 @@ export function TrimScrubber({
       )}
       style={{
         backgroundImage: `url(${filmstripSrc})`,
-        backgroundSize: 'cover',
+        backgroundSize: 'auto 100%',
+        backgroundRepeat: 'repeat-x',
+        ...style,
       }}
       onPointerMove={handlePointerMove}
       {...props}
