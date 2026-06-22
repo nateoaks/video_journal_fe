@@ -58,12 +58,16 @@ See [docs/architecture.md](docs/architecture.md) for the full layered architectu
 src/
 ├── app/          — Next.js App Router pages (thin shells, ≤30 lines)
 │   └── (app)/    — Authenticated app shell with chrome (layout, nav, routes)
+│       ├── upload/   — Upload clips via drag-and-drop
+│       ├── library/  — View and manage clips
+│       └── timeline/ — Reorder ready clips with drag-and-drop
 ├── components/
 │   ├── ui/       — Primitive, stateless UI components (cva + cn)
 │   └── composite/— Components composed from ui/; no business logic
 ├── features/     — Self-contained feature modules (types, queries, actions, components)
 ├── hooks/        — Shared client-side UI hooks
 ├── lib/
+│   ├── clips.ts      — Shared clip helpers (effectiveDuration)
 │   ├── polling.ts    — Polling config (POLL_INTERVAL_MS, shouldPoll predicate)
 │   └── ...           — Utilities (cn, loggedFetch)
 ├── services/     — Typed API service functions (use request<T>() from client.ts)

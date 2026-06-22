@@ -138,9 +138,9 @@ describe('effectiveDuration', () => {
     expect(effectiveDuration(baseClip)).toBe(60)
   })
 
-  it('returns 0 when all values are null', () => {
+  it('returns null when all values are null', () => {
     const clip = { ...baseClip, duration_s: null }
-    expect(effectiveDuration(clip)).toBe(0)
+    expect(effectiveDuration(clip)).toBeNull()
   })
 
   it('uses duration_s when only trim_in_s is set (partial trim)', () => {
