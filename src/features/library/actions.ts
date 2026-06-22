@@ -41,6 +41,8 @@ export async function deleteClip(id: string): Promise<{ error?: string }> {
   try {
     await deleteClipService(id)
     revalidatePath('/library')
+    // Invalidate the clip detail page so it triggers notFound() when accessed
+    revalidatePath(`/library/${id}`)
     return {}
   } catch (err) {
     if (err instanceof ApiError) return { error: err.message }

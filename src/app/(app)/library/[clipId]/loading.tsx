@@ -1,10 +1,26 @@
 export default function Loading() {
   return (
-    <main className="mx-auto flex max-w-5xl flex-col gap-6 px-6 py-10">
-      {/* Header skeleton */}
-      <div className="flex flex-col gap-2">
-        <div className="bg-muted h-7 w-28 animate-pulse rounded" />
-        <div className="bg-muted h-4 w-56 animate-pulse rounded" />
+    <main className="mx-auto flex max-w-5xl flex-col gap-6 px-6 py-6">
+      {/* Nav skeleton */}
+      <div className="flex items-center gap-2">
+        <div className="bg-muted h-8 w-16 animate-pulse rounded-md" />
+        <div className="ml-auto flex gap-1">
+          <div className="bg-muted h-8 w-14 animate-pulse rounded-md" />
+          <div className="bg-muted h-8 w-14 animate-pulse rounded-md" />
+        </div>
+      </div>
+
+      {/* Metadata + actions skeleton */}
+      <div className="flex items-start justify-between gap-4">
+        <div className="grid flex-1 grid-cols-4 gap-x-8 gap-y-3">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="flex flex-col gap-1">
+              <div className="bg-muted h-3 w-16 animate-pulse rounded" />
+              <div className="bg-muted h-4 w-24 animate-pulse rounded" />
+            </div>
+          ))}
+        </div>
+        <div className="bg-muted h-8 w-24 animate-pulse rounded-md" />
       </div>
 
       {/* Video skeleton */}

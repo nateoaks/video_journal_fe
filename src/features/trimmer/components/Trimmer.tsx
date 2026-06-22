@@ -19,9 +19,10 @@ const SCRUBBER_WIDTH = 800
 
 interface TrimmerProps {
   clip: Clip
+  onDirtyChange?: (dirty: boolean) => void
 }
 
-export function Trimmer({ clip }: TrimmerProps) {
+export function Trimmer({ clip, onDirtyChange }: TrimmerProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const rafRef = useRef<number | null>(null)
 
@@ -55,6 +56,21 @@ export function Trimmer({ clip }: TrimmerProps) {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
     }
   }, [])
+
+  // Notify parent when trim values diverge from the saved clip state
+  useEffect(() => {
+    if (!onDirtyChange) return
+    const savedIn = clip.trim_in_s ?? 0
+    const savedOut = clip.trim_out_s ?? clip.duration_s ?? 0
+    onDirtyChange(trimIn !== savedIn || trimOut !== savedOut)
+  }, [
+    trimIn,
+    trimOut,
+    clip.trim_in_s,
+    clip.trim_out_s,
+    clip.duration_s,
+    onDirtyChange,
+  ])
 
   // Track playhead on timeupdate
   useEffect(() => {
@@ -117,6 +133,7 @@ export function Trimmer({ clip }: TrimmerProps) {
           toast.error(result.error)
         } else {
           toast.success('Trim saved')
+          onDirtyChange?.(false)
         }
       } catch (err) {
         toast.error(err instanceof Error ? err.message : 'Failed to save trim')
