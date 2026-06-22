@@ -6,4 +6,6 @@ export {
   buildClipVideoUrl,
   buildClipFilmstripUrl,
   uploadClip,
+  clipVideoPath,
+  clipFilmstripPath,
 } from './clips'

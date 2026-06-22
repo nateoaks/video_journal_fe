@@ -1,4 +1,4 @@
-import type { Clip, UpdateClipInput } from '@/features/library/types'
+import type { Clip, UpdateClipInput } from '@/types/clip'
 import { ApiError, type ApiErrorBody } from '@/types/api'
 import { request } from './client'
 
@@ -97,4 +97,16 @@ export function uploadClip(
     xhr.open('POST', '/api/v1/clips')
     xhr.send(formData)
   })
+}
+
+/**
+ * Same-origin path helpers for use in client components (no BACKEND_URL needed).
+ * Route these through Next.js rewrites → backend proxy.
+ */
+export function clipVideoPath(id: string): string {
+  return `/api/v1/clips/${encodeURIComponent(id)}/video`
+}
+
+export function clipFilmstripPath(id: string): string {
+  return `/api/v1/clips/${encodeURIComponent(id)}/filmstrip`
 }
