@@ -51,7 +51,12 @@ export function SoundtrackUploader() {
 
   const scheduleRefresh = useCallback(() => {
     if (refreshTimerRef.current) clearTimeout(refreshTimerRef.current)
-    refreshTimerRef.current = setTimeout(() => routerRef.current.refresh(), 300)
+    refreshTimerRef.current = setTimeout(() => {
+      routerRef.current.refresh()
+      // Once the server list has refreshed, clear completed items — the
+      // soundtrack now appears in the list below, so the uploader row is redundant.
+      setFiles((prev) => prev.filter((f) => f.status !== 'done'))
+    }, 300)
   }, [])
 
   const drainQueue = useCallback(() => {
