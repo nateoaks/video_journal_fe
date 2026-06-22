@@ -1,4 +1,4 @@
-import { TrimmerPage } from '@/features/trimmer'
+import { ClipDetailPage } from '@/features/clip-detail'
 
 export default async function Page({
   params,
@@ -6,5 +6,5 @@ export default async function Page({
   params: Promise<{ clipId: string }>
 }) {
   const { clipId } = await params
-  return <TrimmerPage clipId={clipId} />
+  return <ClipDetailPage clipId={clipId} />
 }
