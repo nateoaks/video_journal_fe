@@ -1,3 +1,9 @@
 'use server'
 
-export { deleteClip as deleteClipAction } from '@/features/library'
+import { deleteClip } from '@/features/library'
+
+export async function deleteClipAction(
+  id: string
+): Promise<{ error?: string }> {
+  return deleteClip(id)
+}
