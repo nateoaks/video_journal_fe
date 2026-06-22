@@ -8,6 +8,7 @@ const navItems = [
   { href: '/library', label: 'Library' },
   { href: '/timeline', label: 'Timeline' },
   { href: '/upload', label: 'Upload' },
+  { href: '/soundtracks', label: 'Soundtracks' },
 ]
 
 export function AppNav() {

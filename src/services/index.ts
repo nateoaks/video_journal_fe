@@ -9,3 +9,11 @@ export {
   clipVideoPath,
   clipFilmstripPath,
 } from './clips'
+
+export {
+  listSoundtracks,
+  getSoundtrack,
+  deleteSoundtrack,
+  uploadSoundtrack,
+  soundtrackAudioPath,
+} from './soundtracks'

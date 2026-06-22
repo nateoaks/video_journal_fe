@@ -24,3 +24,6 @@ export type { UploadItemProps } from './UploadItem'
 
 export { TrimScrubber } from './TrimScrubber'
 export type { TrimScrubberProps } from './TrimScrubber'
+
+export { SoundtrackItem, soundtrackItemVariants } from './SoundtrackItem'
+export type { SoundtrackItemProps } from './SoundtrackItem'
