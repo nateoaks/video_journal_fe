@@ -21,3 +21,6 @@ export type { DropzoneProps } from './Dropzone'
 
 export { UploadItem, uploadItemVariants } from './UploadItem'
 export type { UploadItemProps } from './UploadItem'
+
+export { TrimScrubber } from './TrimScrubber'
+export type { TrimScrubberProps } from './TrimScrubber'
