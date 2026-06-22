@@ -1,6 +1,8 @@
 import type { Clip } from '@/types/clip'
 import type { TrimSelection } from './types'
 
+export { effectiveDuration } from '@/lib/clips'
+
 export const MIN_SELECTION_S = 0.5
 
 /**
@@ -60,16 +62,6 @@ export function initialSelection(clip: Clip): TrimSelection {
     in: clip.trim_in_s ?? 0,
     out: clip.trim_out_s ?? clip.duration_s ?? 0,
   }
-}
-
-/**
- * The effective playable duration of a clip after trimming.
- */
-export function effectiveDuration(clip: Clip): number {
-  if (clip.trim_in_s != null && clip.trim_out_s != null) {
-    return clip.trim_out_s - clip.trim_in_s
-  }
-  return clip.duration_s ?? 0
 }
 
 /**
