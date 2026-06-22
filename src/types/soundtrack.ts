@@ -4,6 +4,6 @@ export interface Soundtrack {
   id: string
   title: string
   duration_s: number | null
-  status: SoundtrackStatus
+  status?: SoundtrackStatus
   error_message: string | null
 }

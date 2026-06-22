@@ -28,7 +28,7 @@ export interface SoundtrackItemProps
     Omit<VariantProps<typeof soundtrackItemVariants>, 'selected'> {
   title: string
   duration_s: number | null
-  status: SoundtrackStatus
+  status?: SoundtrackStatus
   selected: boolean
   audioSrc: string
   onSelect?: () => void
@@ -48,12 +48,16 @@ export function SoundtrackItem({
   className,
   ...props
 }: SoundtrackItemProps) {
-  const isReady = status === 'ready'
+  const resolvedStatus = status ?? 'ready'
+  const isReady = resolvedStatus === 'ready'
 
   return (
     <div
       className={cn(
-        soundtrackItemVariants({ status, selected: selected as boolean }),
+        soundtrackItemVariants({
+          status: resolvedStatus,
+          selected: selected as boolean,
+        }),
         className
       )}
       {...props}
@@ -66,10 +70,12 @@ export function SoundtrackItem({
           </span>
         </div>
         <div className="flex shrink-0 items-center gap-2">
-          {status === 'processing' && (
+          {resolvedStatus === 'processing' && (
             <Badge variant="processing">Processing</Badge>
           )}
-          {status === 'failed' && <Badge variant="failed">Failed</Badge>}
+          {resolvedStatus === 'failed' && (
+            <Badge variant="failed">Failed</Badge>
+          )}
           <button
             role="radio"
             aria-checked={selected}
@@ -119,7 +125,7 @@ export function SoundtrackItem({
         </div>
       </div>
 
-      {status === 'ready' && (
+      {resolvedStatus === 'ready' && (
         <audio
           controls
           preload="metadata"
