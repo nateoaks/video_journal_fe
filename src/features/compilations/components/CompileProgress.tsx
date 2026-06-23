@@ -42,9 +42,14 @@ export function CompileProgress({
     <div className={cn('flex flex-col gap-2', className)}>
       <div className="flex items-center justify-between gap-4">
         <span className="text-sm font-medium">{statusLabel(status)}</span>
-        <span className="text-muted-foreground text-xs">{progress}%</span>
+        <span className="text-muted-foreground text-xs">
+          {Math.floor(progress)}%
+        </span>
       </div>
-      <ProgressBar value={progress} variant={progressVariant(status)} />
+      <ProgressBar
+        value={Math.floor(progress)}
+        variant={progressVariant(status)}
+      />
       {error && <p className="text-destructive text-xs">{error}</p>}
     </div>
   )
