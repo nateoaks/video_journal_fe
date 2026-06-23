@@ -9,6 +9,7 @@ import type { Compilation } from '@/types/compilation'
 import { useSelectedSoundtrack } from '@/hooks/useSelectedSoundtrack'
 import { useCompilationProgress } from '@/hooks/useCompilationProgress'
 import { usePolling } from '@/hooks/usePolling'
+import { useSimulatedProgress } from '@/hooks/useSimulatedProgress'
 import { canCompile, isTerminal } from '../lib'
 import { startCompilation } from '../actions'
 import { CompileProgress } from './CompileProgress'
@@ -57,8 +58,9 @@ export function CompileBar({ clips, compilation }: CompileBarProps) {
 
   // Determine effective display values: prefer SSE state when connected, fall back to server prop
   const displayStatus = sseStatus ?? compilation?.status ?? null
-  const displayProgress =
+  const rawProgress =
     sseStatus !== null ? sseProgress : (compilation?.progress ?? 0)
+  const displayProgress = useSimulatedProgress(rawProgress, displayStatus)
   const displayError = sseError ?? compilation?.error_message ?? null
 
   const isRunning = displayStatus === 'running' || displayStatus === 'queued'
