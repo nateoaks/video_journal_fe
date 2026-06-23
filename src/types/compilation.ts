@@ -1,11 +1,37 @@
 export type CompilationStatus = 'queued' | 'running' | 'complete' | 'failed'
 
+export interface CompilationClip {
+  clip_id: string
+  position: number
+  /**
+   * Trim start in seconds (inclusive).
+   * If 0, clip plays from the beginning.
+   */
+  trim_in_s: number
+  /**
+   * Trim end in seconds (exclusive).
+   * The clip stops before reaching this time.
+   */
+  trim_out_s: number
+}
+
 export interface Compilation {
   id: string
   status: CompilationStatus
   progress: number
+  soundtrack_id?: string | null
   error_message?: string
   output_key?: string
+  /**
+   * Final compiled video duration in seconds.
+   * Null until status === 'complete'.
+   */
+  duration_s: number | null
+  /**
+   * Clips included in this compilation, in final output order.
+   * Populated once the compilation reaches a terminal state.
+   */
+  clips: CompilationClip[]
 }
 
 export interface ClipSnapshot {

@@ -1,8 +1,9 @@
 import { listReadyClips } from '../queries'
 import { EmptyState } from '@/components/composite'
 import { getCompilation } from '@/services/compilations'
+import { getSoundtrack } from '@/services/soundtracks'
 import type { Compilation } from '@/types/compilation'
-import { CompileBar } from '@/features/compilations'
+import { CompileBar, isTerminal } from '@/features/compilations'
 import { TimelineBoard } from './TimelineBoard'
 
 interface TimelinePageProps {
@@ -33,9 +34,23 @@ export async function TimelinePage({ searchParams }: TimelinePageProps) {
   const clips = await listReadyClips()
 
   let compilation: Compilation | undefined
+  let soundtrackTitle: string | null = null
+
   if (compilationId) {
     try {
       compilation = await getCompilation(compilationId)
+
+      // Fetch the soundtrack title only in a terminal state:
+      // earlier states don't have final metadata ready, and we avoid extra
+      // roundtrips while the compilation is actively running.
+      if (isTerminal(compilation.status) && compilation.soundtrack_id) {
+        try {
+          const soundtrack = await getSoundtrack(compilation.soundtrack_id)
+          soundtrackTitle = soundtrack.title
+        } catch {
+          // Soundtrack may have been deleted — not fatal
+        }
+      }
     } catch {
       // Expired or invalid compilationId — silently ignore
     }
@@ -54,7 +69,11 @@ export async function TimelinePage({ searchParams }: TimelinePageProps) {
         <>
           <TimelineBoard initialClips={clips} />
           <div className="mt-8">
-            <CompileBar clips={clips} compilation={compilation} />
+            <CompileBar
+              clips={clips}
+              compilation={compilation}
+              soundtrackTitle={soundtrackTitle}
+            />
           </div>
         </>
       )}

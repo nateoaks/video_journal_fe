@@ -13,13 +13,24 @@ import { useSimulatedProgress } from '@/hooks/useSimulatedProgress'
 import { canCompile, isTerminal } from '../lib'
 import { startCompilation } from '../actions'
 import { CompileProgress } from './CompileProgress'
+import { CompilationOutput } from './CompilationOutput'
 
 interface CompileBarProps {
   clips: Clip[]
   compilation?: Compilation
+  /**
+   * Soundtrack title to display in CompilationOutput.
+   * Only fetched server-side when compilation is in a terminal state.
+   * Null if soundtrack was deleted or compilation is not yet terminal.
+   */
+  soundtrackTitle?: string | null
 }
 
-export function CompileBar({ clips, compilation }: CompileBarProps) {
+export function CompileBar({
+  clips,
+  compilation,
+  soundtrackTitle,
+}: CompileBarProps) {
   const router = useRouter()
   const { selectedId: soundtrackId } = useSelectedSoundtrack()
   const [localCompilationId, setLocalCompilationId] = useState<string | null>(
@@ -35,7 +46,6 @@ export function CompileBar({ clips, compilation }: CompileBarProps) {
     status: sseStatus,
     progress: sseProgress,
     error: sseError,
-    outputKey: sseOutputKey,
     sseDropped,
   } = useCompilationProgress(activeCompilationId)
 
@@ -117,14 +127,12 @@ export function CompileBar({ clips, compilation }: CompileBarProps) {
         />
       )}
 
-      {displayStatus === 'complete' &&
-        (sseOutputKey ?? compilation?.output_key) && (
-          <p className="text-muted-foreground text-sm">
-            Output:{' '}
-            <span className="font-mono text-xs">
-              {sseOutputKey ?? compilation?.output_key}
-            </span>
-          </p>
+      {(displayStatus === 'complete' || displayStatus === 'failed') &&
+        compilation && (
+          <CompilationOutput
+            compilation={compilation}
+            soundtrackTitle={soundtrackTitle ?? null}
+          />
         )}
     </div>
   )
