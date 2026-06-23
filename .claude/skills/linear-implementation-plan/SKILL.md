@@ -21,6 +21,20 @@ If the description already contains an `## Implementation Plan` section, show it
 
 If the ticket belongs to a project, check for an architecture doc the `architect` skill may have produced via `Linear:get_project` with `includeResources: true` (or `Linear:list_documents` scoped by `projectId`), looking for one titled `Architecture: ...`. If one exists, read its "Constraints for implementation" section — the plan must respect it. If a comment on this ticket references an architecture doc, that's a strong signal one exists even if the project-level search misses it.
 
+## Step 1b: Fetch the API schema (when relevant)
+
+If the ticket involves calling backend endpoints, creating new API integrations, or requires knowing request/response shapes, fetch the OpenAPI spec:
+
+```
+GET http://127.0.0.1:8000/openapi.json
+```
+
+Use this to identify the correct endpoint paths, HTTP methods, request bodies, and response types before drafting the plan. Reference exact field names and types in the plan rather than guessing.
+
+If the fetch fails (connection refused, timeout, or any network error), **stop and tell the user**: "The backend needs to be running at http://127.0.0.1:8000 to fetch the API schema. Start it and re-run, or paste the relevant endpoint details here." Do not proceed by guessing API shapes.
+
+If the ticket clearly has no backend API involvement (pure UI refactor, config change, etc.), skip this step.
+
 ## Step 2: Clarify before drafting
 
 Before writing anything, check whether any of these are unclear from the ticket:
