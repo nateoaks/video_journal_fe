@@ -57,7 +57,7 @@ export function isTerminal(status: CompilationStatus): boolean {
  * Returns "0:00" for null or negative values.
  */
 export function formatDuration(seconds: number | null): string {
-  if (seconds === null || seconds < 0) return '0:00'
+  if (seconds == null || seconds < 0) return '0:00'
   const totalSeconds = Math.floor(seconds)
   const m = Math.floor(totalSeconds / 60)
   const s = totalSeconds % 60

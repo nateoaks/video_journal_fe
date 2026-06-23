@@ -220,6 +220,10 @@ describe('formatDuration', () => {
     expect(formatDuration(null)).toBe('0:00')
   })
 
+  it('returns 0:00 for undefined', () => {
+    expect(formatDuration(undefined as unknown as null)).toBe('0:00')
+  })
+
   it('returns 0:00 for zero', () => {
     expect(formatDuration(0)).toBe('0:00')
   })
