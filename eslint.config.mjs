@@ -14,6 +14,7 @@ const eslintConfig = defineConfig([
   },
   prettier,
   globalIgnores([
+    '.claude/**',
     '.next/**',
     'out/**',
     'build/**',
