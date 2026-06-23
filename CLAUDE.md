@@ -138,7 +138,6 @@ If you're ever unsure whether something just happened autonomously or is waiting
 
 New skills go in `.claude/skills/<name>/SKILL.md` (project-scoped, ships with the repo) and should be added to the diagram above if they sit in the main pipeline, or to "independent entry points" if they don't. If it's meant to be reachable via slash command, add a one-line command file to `.claude/commands/`.
 
-## Git worktree usage
+## Git usage
 
-When operating on a different worktree, use `git -C <worktree-path> <command>`
-instead of `cd <worktree-path> && git <command>`.
+Always pass `-C <path>` to git instead of using `cd` — e.g. `git -C /path/to/repo status`. This applies everywhere: the main repo, worktrees, and any other directory. Using `cd` triggers an unnecessary permission prompt.
