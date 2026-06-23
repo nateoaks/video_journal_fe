@@ -1,5 +1,9 @@
 import { TimelinePage } from '@/features/timeline'
 
-export default function Page() {
-  return <TimelinePage />
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ compilationId?: string }>
+}) {
+  return <TimelinePage searchParams={searchParams} />
 }

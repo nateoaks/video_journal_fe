@@ -1,6 +1,13 @@
 import { listReadyClips } from '../queries'
 import { EmptyState } from '@/components/composite'
+import { getCompilation } from '@/services/compilations'
+import type { Compilation } from '@/types/compilation'
+import { CompileBar } from '@/features/compilations'
 import { TimelineBoard } from './TimelineBoard'
+
+interface TimelinePageProps {
+  searchParams: Promise<{ compilationId?: string }>
+}
 
 function VideoIcon() {
   return (
@@ -21,8 +28,18 @@ function VideoIcon() {
   )
 }
 
-export async function TimelinePage() {
+export async function TimelinePage({ searchParams }: TimelinePageProps) {
+  const { compilationId } = await searchParams
   const clips = await listReadyClips()
+
+  let compilation: Compilation | undefined
+  if (compilationId) {
+    try {
+      compilation = await getCompilation(compilationId)
+    } catch {
+      // Expired or invalid compilationId — silently ignore
+    }
+  }
 
   return (
     <main className="mx-auto max-w-5xl px-6 py-10">
@@ -34,7 +51,12 @@ export async function TimelinePage() {
           description="Clips will appear here once they finish processing."
         />
       ) : (
-        <TimelineBoard initialClips={clips} />
+        <>
+          <TimelineBoard initialClips={clips} />
+          <div className="mt-8">
+            <CompileBar clips={clips} compilation={compilation} />
+          </div>
+        </>
       )}
     </main>
   )
