@@ -22,4 +22,5 @@ export {
   createCompilation,
   getCompilation,
   compilationEventsPath,
+  compilationVideoPath,
 } from './compilations'
