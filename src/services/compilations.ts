@@ -21,3 +21,12 @@ export function getCompilation(id: string): Promise<Compilation> {
 export function compilationEventsPath(id: string): string {
   return `/api/v1/compilations/${encodeURIComponent(id)}/events`
 }
+
+/**
+ * Returns the same-origin path for streaming the compiled video.
+ * Supports Range requests / 206 partial content.
+ * Used in the browser — NOT through BACKEND_URL.
+ */
+export function compilationVideoPath(id: string): string {
+  return `/api/v1/compilations/${encodeURIComponent(id)}/video`
+}

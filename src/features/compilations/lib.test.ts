@@ -4,6 +4,8 @@ import {
   buildCompilePayload,
   isTerminal,
   parseProgressEvent,
+  formatDuration,
+  downloadFilename,
 } from './lib'
 import type { Clip } from '@/types/clip'
 
@@ -190,5 +192,60 @@ describe('parseProgressEvent', () => {
 
   it('returns null for null input parsed as JSON', () => {
     expect(parseProgressEvent('null')).toBeNull()
+  })
+})
+
+describe('formatDuration', () => {
+  it('formats whole seconds under a minute', () => {
+    expect(formatDuration(45)).toBe('0:45')
+  })
+
+  it('formats exactly one minute', () => {
+    expect(formatDuration(60)).toBe('1:00')
+  })
+
+  it('formats minutes and seconds', () => {
+    expect(formatDuration(90)).toBe('1:30')
+  })
+
+  it('pads seconds with leading zero', () => {
+    expect(formatDuration(61)).toBe('1:01')
+  })
+
+  it('formats large durations correctly', () => {
+    expect(formatDuration(3723)).toBe('62:03')
+  })
+
+  it('returns 0:00 for null', () => {
+    expect(formatDuration(null)).toBe('0:00')
+  })
+
+  it('returns 0:00 for undefined', () => {
+    expect(formatDuration(undefined as unknown as null)).toBe('0:00')
+  })
+
+  it('returns 0:00 for zero', () => {
+    expect(formatDuration(0)).toBe('0:00')
+  })
+
+  it('returns 0:00 for negative values', () => {
+    expect(formatDuration(-5)).toBe('0:00')
+  })
+
+  it('truncates fractional seconds', () => {
+    expect(formatDuration(1.9)).toBe('0:01')
+  })
+})
+
+describe('downloadFilename', () => {
+  it('returns a filename with the video-journal prefix and .mp4 extension', () => {
+    const result = downloadFilename()
+    expect(result).toMatch(/^video-journal-\d{4}-\d{2}-\d{2}\.mp4$/)
+  })
+
+  it("includes today's date in YYYY-MM-DD format", () => {
+    const today = new Date().toISOString().slice(0, 10)
+    const result = downloadFilename()
+    expect(result).toBe(`video-journal-${today}.mp4`)
   })
 })

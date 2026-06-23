@@ -53,6 +53,27 @@ export function isTerminal(status: CompilationStatus): boolean {
 }
 
 /**
+ * Formats a duration in seconds to a human-readable "m:ss" string.
+ * Returns "0:00" for null or negative values.
+ */
+export function formatDuration(seconds: number | null): string {
+  if (seconds == null || seconds < 0) return '0:00'
+  const totalSeconds = Math.floor(seconds)
+  const m = Math.floor(totalSeconds / 60)
+  const s = totalSeconds % 60
+  return `${m}:${s.toString().padStart(2, '0')}`
+}
+
+/**
+ * Generates a download filename for a compilation video.
+ * Format: video-journal-YYYY-MM-DD.mp4 using today's date.
+ */
+export function downloadFilename(): string {
+  const date = new Date().toISOString().slice(0, 10)
+  return `video-journal-${date}.mp4`
+}
+
+/**
  * Parses a raw SSE message data string into a CompilationSseEvent.
  * Returns null on any parse or type failure.
  */
