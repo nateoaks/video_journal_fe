@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useEffect, useRef, useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui'
@@ -44,6 +44,16 @@ export function CompileBar({ clips, compilation }: CompileBarProps) {
   const isPollingActive =
     sseDropped && activeStatus !== null && !isTerminal(activeStatus)
   usePolling(isPollingActive)
+
+  // After SSE reaches a terminal state, do one server sync so output_key and
+  // final status are available even if the backend omits them from the SSE event.
+  const didSyncRef = useRef(false)
+  useEffect(() => {
+    if (!didSyncRef.current && sseStatus && isTerminal(sseStatus)) {
+      didSyncRef.current = true
+      router.refresh()
+    }
+  }, [sseStatus, router])
 
   // Determine effective display values: prefer SSE state when connected, fall back to server prop
   const displayStatus = sseStatus ?? compilation?.status ?? null
