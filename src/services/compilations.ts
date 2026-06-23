@@ -4,14 +4,14 @@ import { request } from './client'
 export function createCompilation(
   input: CreateCompilationInput
 ): Promise<{ id: string }> {
-  return request<{ id: string }>('/api/compilations', {
+  return request<{ id: string }>('/api/v1/compilations', {
     method: 'POST',
     body: JSON.stringify(input),
   })
 }
 
 export function getCompilation(id: string): Promise<Compilation> {
-  return request<Compilation>(`/api/compilations/${encodeURIComponent(id)}`)
+  return request<Compilation>(`/api/v1/compilations/${encodeURIComponent(id)}`)
 }
 
 /**
@@ -19,5 +19,5 @@ export function getCompilation(id: string): Promise<Compilation> {
  * Used in the browser — NOT through BACKEND_URL.
  */
 export function compilationEventsPath(id: string): string {
-  return `/api/compilations/${encodeURIComponent(id)}/events`
+  return `/api/v1/compilations/${encodeURIComponent(id)}/events`
 }

@@ -36,7 +36,7 @@ describe('compilations service', () => {
       }
       const result = await createCompilation(input)
 
-      expect(mockRequest).toHaveBeenCalledWith('/api/compilations', {
+      expect(mockRequest).toHaveBeenCalledWith('/api/v1/compilations', {
         method: 'POST',
         body: JSON.stringify(input),
       })
@@ -70,7 +70,7 @@ describe('compilations service', () => {
 
       const result = await getCompilation('comp_1')
 
-      expect(mockRequest).toHaveBeenCalledWith('/api/compilations/comp_1')
+      expect(mockRequest).toHaveBeenCalledWith('/api/v1/compilations/comp_1')
       expect(result).toEqual(compilation)
     })
   })
@@ -78,13 +78,13 @@ describe('compilations service', () => {
   describe('compilationEventsPath', () => {
     it('returns the correct same-origin proxy path', () => {
       expect(compilationEventsPath('comp_1')).toBe(
-        '/api/compilations/comp_1/events'
+        '/api/v1/compilations/comp_1/events'
       )
     })
 
     it('URL-encodes the id', () => {
       expect(compilationEventsPath('comp/1')).toBe(
-        '/api/compilations/comp%2F1/events'
+        '/api/v1/compilations/comp%2F1/events'
       )
     })
   })
