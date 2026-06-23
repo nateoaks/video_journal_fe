@@ -27,3 +27,10 @@ export type { TrimScrubberProps } from './TrimScrubber'
 
 export { SoundtrackItem, soundtrackItemVariants } from './SoundtrackItem'
 export type { SoundtrackItemProps } from './SoundtrackItem'
+
+export {
+  ProgressBar,
+  progressBarFillVariants,
+  progressBarTrackVariants,
+} from './ProgressBar'
+export type { ProgressBarProps } from './ProgressBar'

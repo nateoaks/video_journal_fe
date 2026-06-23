@@ -17,3 +17,9 @@ export {
   uploadSoundtrack,
   soundtrackAudioPath,
 } from './soundtracks'
+
+export {
+  createCompilation,
+  getCompilation,
+  compilationEventsPath,
+} from './compilations'
