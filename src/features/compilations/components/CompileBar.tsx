@@ -44,12 +44,19 @@ export function CompileBar({
   // Active compilation ID: prefer server-passed (late-join), then local
   const activeCompilationId = compilation?.id ?? localCompilationId ?? null
 
+  // Skip SSE for already-terminal compilations (e.g. viewed from history).
+  // The server-fetched status is authoritative; opening SSE for an old compilation
+  // would return {"status":"pending"} from the backend's in-memory store (which
+  // evicts terminal state after a restart), overriding the correct "complete" status.
+  const alreadyTerminal = compilation != null && isTerminal(compilation.status)
+  const compilationIdForSSE = alreadyTerminal ? null : activeCompilationId
+
   const {
     status: sseStatus,
     progress: sseProgress,
     error: sseError,
     sseDropped,
-  } = useCompilationProgress(activeCompilationId)
+  } = useCompilationProgress(compilationIdForSSE)
 
   // When SSE is dropped, fall back to polling via router.refresh()
   const serverStatus = compilation?.status ?? null
