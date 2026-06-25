@@ -46,3 +46,6 @@ export {
   sliderThumbVariants,
 } from './Slider'
 export type { SliderProps } from './Slider'
+
+export { StorageMeter } from './StorageMeter'
+export type { StorageMeterProps, StorageMeterSegment } from './StorageMeter'
