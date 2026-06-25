@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { formatDuration, formatRecordedDate } from './format'
+import { formatDuration, formatRecordedDate, formatBytes } from './format'
 
 describe('formatDuration', () => {
   it('formats 0 seconds as 00:00', () => {
@@ -24,6 +24,36 @@ describe('formatDuration', () => {
 
   it('returns --:-- for undefined', () => {
     expect(formatDuration(undefined)).toBe('--:--')
+  })
+})
+
+describe('formatBytes', () => {
+  it('returns "—" for null', () => {
+    expect(formatBytes(null)).toBe('—')
+  })
+
+  it('returns "—" for undefined', () => {
+    expect(formatBytes(undefined)).toBe('—')
+  })
+
+  it('returns "0 B" for zero', () => {
+    expect(formatBytes(0)).toBe('0 B')
+  })
+
+  it('formats bytes under 1 KB as plain bytes', () => {
+    expect(formatBytes(512)).toBe('512 B')
+  })
+
+  it('formats values in KB range with one decimal', () => {
+    expect(formatBytes(1536)).toBe('1.5 KB')
+  })
+
+  it('formats values in MB range with one decimal', () => {
+    expect(formatBytes(1024 * 1024 * 2.5)).toBe('2.5 MB')
+  })
+
+  it('formats values in GB range with one decimal', () => {
+    expect(formatBytes(1024 * 1024 * 1024 * 3)).toBe('3.0 GB')
   })
 })
 

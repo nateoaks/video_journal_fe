@@ -1,9 +1,11 @@
+import { Suspense } from 'react'
 import { listClips } from '../queries'
 import { shouldPoll } from '@/lib/polling'
 import { sortClips } from '../lib'
 import { EmptyState } from '@/components/composite'
 import { LibraryPoller } from './LibraryPoller'
 import { LibraryGrid } from './LibraryGrid'
+import { StorageUsage } from '@/features/storage'
 
 function VideoIcon() {
   return (
@@ -31,6 +33,13 @@ export async function LibraryPage() {
   return (
     <main className="mx-auto max-w-5xl px-6 py-10">
       <h1 className="mb-6 text-2xl font-semibold">Library</h1>
+      <Suspense
+        fallback={
+          <div className="bg-muted mb-6 h-24 animate-pulse rounded-lg" />
+        }
+      >
+        <StorageUsage className="mb-6" />
+      </Suspense>
       <LibraryPoller active={active} />
       {clips.length === 0 ? (
         <EmptyState

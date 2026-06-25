@@ -26,3 +26,5 @@ export {
   compilationEventsPath,
   compilationVideoPath,
 } from './compilations'
+
+export { getStorageUsage } from './storage'
