@@ -1,5 +1,5 @@
 import { request } from './client'
-import type { StorageUsage } from '@/features/storage/types'
+import type { StorageUsage } from '@/types/storage'
 
 interface StorageUsageRaw {
   originals_bytes: number

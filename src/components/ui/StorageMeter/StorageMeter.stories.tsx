@@ -5,6 +5,9 @@ const meta: Meta<typeof StorageMeter> = {
   title: 'UI/StorageMeter',
   component: StorageMeter,
   tags: ['autodocs'],
+  argTypes: {
+    total: { control: 'text' },
+  },
 }
 export default meta
 
@@ -44,6 +47,13 @@ const fullSegments = [
 ]
 
 export const Default: Story = {
+  args: {
+    total: '4.9 GB',
+    segments: fullSegments,
+  },
+}
+
+export const Interactive: Story = {
   args: {
     total: '4.9 GB',
     segments: fullSegments,

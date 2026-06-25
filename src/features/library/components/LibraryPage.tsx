@@ -38,7 +38,7 @@ export async function LibraryPage() {
           <div className="bg-muted mb-6 h-24 animate-pulse rounded-lg" />
         }
       >
-        <StorageUsage />
+        <StorageUsage className="mb-6" />
       </Suspense>
       <LibraryPoller active={active} />
       {clips.length === 0 ? (

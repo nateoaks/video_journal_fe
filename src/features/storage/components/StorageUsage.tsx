@@ -2,7 +2,11 @@ import { formatBytes } from '@/lib/format'
 import { StorageMeter } from '@/components/ui'
 import { getStorageUsageSafe } from '../queries'
 
-export async function StorageUsage() {
+interface StorageUsageProps {
+  className?: string
+}
+
+export async function StorageUsage({ className }: StorageUsageProps = {}) {
   const usage = await getStorageUsageSafe()
   if (!usage) return null
 
@@ -40,5 +44,7 @@ export async function StorageUsage() {
     },
   ]
 
-  return <StorageMeter total={total} segments={segments} />
+  return (
+    <StorageMeter total={total} segments={segments} className={className} />
+  )
 }

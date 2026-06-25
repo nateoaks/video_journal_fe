@@ -40,7 +40,7 @@ export function StorageMeter({
                 <span>{seg.label}</span>
                 <span>{seg.formatted}</span>
               </div>
-              <ProgressBar value={pct} size="sm" />
+              <ProgressBar value={pct} size="sm" aria-label={seg.label} />
             </div>
           )
         })}
