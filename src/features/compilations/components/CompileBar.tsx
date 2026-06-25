@@ -73,7 +73,7 @@ export function CompileBar({
   const rawProgress =
     sseStatus !== null ? sseProgress : (compilation?.progress ?? 0)
   const displayProgress = useSimulatedProgress(rawProgress, displayStatus)
-  const displayError = sseError ?? compilation?.error_message ?? null
+  const displayError = sseError ?? compilation?.error ?? null
 
   const isRunning = displayStatus === 'running' || displayStatus === 'queued'
 

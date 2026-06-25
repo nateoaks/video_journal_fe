@@ -9,6 +9,7 @@ const navItems = [
   { href: '/timeline', label: 'Timeline' },
   { href: '/upload', label: 'Upload' },
   { href: '/soundtracks', label: 'Soundtracks' },
+  { href: '/history', label: 'History' },
 ]
 
 export function AppNav() {

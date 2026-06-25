@@ -6,6 +6,8 @@ import {
   parseProgressEvent,
   formatDuration,
   downloadFilename,
+  statusBadge,
+  formatMixMode,
 } from './lib'
 import type { Clip } from '@/types/clip'
 
@@ -260,6 +262,46 @@ describe('formatDuration', () => {
 
   it('truncates fractional seconds', () => {
     expect(formatDuration(1.9)).toBe('0:01')
+  })
+})
+
+describe('statusBadge', () => {
+  it('returns default variant for complete', () => {
+    const { label, variant } = statusBadge('complete')
+    expect(label).toBe('Complete')
+    expect(variant).toBe('default')
+  })
+
+  it('returns failed variant for failed', () => {
+    const { label, variant } = statusBadge('failed')
+    expect(label).toBe('Failed')
+    expect(variant).toBe('failed')
+  })
+
+  it('returns processing variant and capitalized label for running', () => {
+    const { label, variant } = statusBadge('running')
+    expect(label).toBe('Running')
+    expect(variant).toBe('processing')
+  })
+
+  it('returns processing variant for queued', () => {
+    const { variant } = statusBadge('queued')
+    expect(variant).toBe('processing')
+  })
+
+  it('returns processing variant for pending', () => {
+    const { variant } = statusBadge('pending')
+    expect(variant).toBe('processing')
+  })
+})
+
+describe('formatMixMode', () => {
+  it('returns "Clip audio mixed in" when true', () => {
+    expect(formatMixMode(true)).toBe('Clip audio mixed in')
+  })
+
+  it('returns "Soundtrack only" when false', () => {
+    expect(formatMixMode(false)).toBe('Soundtrack only')
   })
 })
 

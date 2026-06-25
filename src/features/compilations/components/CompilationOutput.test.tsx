@@ -186,7 +186,6 @@ describe('CompilationOutput', () => {
         <CompilationOutput
           compilation={makeCompilation({
             status: 'failed',
-            error_message: 'Codec not supported',
           })}
           soundtrackTitle={null}
         />
@@ -200,7 +199,7 @@ describe('CompilationOutput', () => {
         <CompilationOutput
           compilation={makeCompilation({
             status: 'failed',
-            error_message: 'Codec not supported',
+            error: 'Codec not supported',
           })}
           soundtrackTitle={null}
         />
@@ -213,7 +212,6 @@ describe('CompilationOutput', () => {
         <CompilationOutput
           compilation={makeCompilation({
             status: 'failed',
-            error_message: 'Something went wrong',
           })}
           soundtrackTitle={null}
         />

@@ -33,7 +33,9 @@ describe('soundtracks service', () => {
   it('listSoundtracks calls request with /api/v1/soundtracks', async () => {
     mockRequest.mockResolvedValueOnce([])
     await listSoundtracks()
-    expect(mockRequest).toHaveBeenCalledWith('/api/v1/soundtracks')
+    expect(mockRequest).toHaveBeenCalledWith('/api/v1/soundtracks', {
+      next: { revalidate: 60 },
+    })
   })
 
   it('getSoundtrack calls request with /api/v1/soundtracks/:id', async () => {

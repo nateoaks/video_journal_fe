@@ -16,6 +16,8 @@ import { request } from './client'
 import {
   createCompilation,
   getCompilation,
+  listCompilations,
+  deleteCompilation,
   compilationEventsPath,
 } from './compilations'
 
@@ -76,6 +78,62 @@ describe('compilations service', () => {
 
       expect(mockRequest).toHaveBeenCalledWith('/api/v1/compilations/comp_1')
       expect(result).toEqual(compilation)
+    })
+  })
+
+  describe('listCompilations', () => {
+    it('calls request with GET /api/v1/compilations?limit=50&offset=0 by default', async () => {
+      const compilations = [{ id: 'comp_1', status: 'complete' as const }]
+      mockRequest.mockResolvedValueOnce(compilations)
+
+      const result = await listCompilations()
+
+      expect(mockRequest).toHaveBeenCalledWith(
+        '/api/v1/compilations?limit=50&offset=0'
+      )
+      expect(result).toEqual(compilations)
+    })
+
+    it('propagates ApiError', async () => {
+      mockRequest.mockRejectedValueOnce(
+        new ApiError(401, 'unauthorized', 'Unauthorized')
+      )
+
+      const err = await listCompilations().catch((e: unknown) => e)
+      expect(err).toBeInstanceOf(ApiError)
+      expect((err as ApiError).status).toBe(401)
+    })
+  })
+
+  describe('deleteCompilation', () => {
+    it('calls request with DELETE /api/v1/compilations/:id', async () => {
+      mockRequest.mockResolvedValueOnce(undefined)
+
+      await deleteCompilation('comp_1')
+
+      expect(mockRequest).toHaveBeenCalledWith('/api/v1/compilations/comp_1', {
+        method: 'DELETE',
+      })
+    })
+
+    it('propagates ApiError with 404 when compilation not found', async () => {
+      mockRequest.mockRejectedValueOnce(
+        new ApiError(404, 'not_found', 'Compilation not found')
+      )
+
+      const err = await deleteCompilation('missing_id').catch((e: unknown) => e)
+      expect(err).toBeInstanceOf(ApiError)
+      expect((err as ApiError).status).toBe(404)
+    })
+
+    it('propagates ApiError with 409 when compilation is running', async () => {
+      mockRequest.mockRejectedValueOnce(
+        new ApiError(409, 'conflict', 'Cannot delete a running compilation')
+      )
+
+      const err = await deleteCompilation('running_id').catch((e: unknown) => e)
+      expect(err).toBeInstanceOf(ApiError)
+      expect((err as ApiError).status).toBe(409)
     })
   })
 

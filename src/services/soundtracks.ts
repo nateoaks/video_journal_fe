@@ -3,7 +3,9 @@ import { ApiError, type ApiErrorBody } from '@/types/api'
 import { request } from './client'
 
 export function listSoundtracks(): Promise<Soundtrack[]> {
-  return request<Soundtrack[]>('/api/v1/soundtracks')
+  return request<Soundtrack[]>('/api/v1/soundtracks', {
+    next: { revalidate: 60 },
+  } as RequestInit)
 }
 
 export function getSoundtrack(id: string): Promise<Soundtrack> {

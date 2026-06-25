@@ -20,10 +20,8 @@ export function CompilationOutput({
         <p className="text-destructive text-sm font-medium">
           Compilation failed
         </p>
-        {compilation.error_message && (
-          <p className="text-muted-foreground text-sm">
-            {compilation.error_message}
-          </p>
+        {compilation.error && (
+          <p className="text-muted-foreground text-sm">{compilation.error}</p>
         )}
       </div>
     )

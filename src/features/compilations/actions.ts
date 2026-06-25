@@ -1,10 +1,46 @@
 'use server'
 
+import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { ApiError } from '@/types/api'
 import type { Clip } from '@/types/clip'
-import { createCompilation } from '@/services/compilations'
+import { createCompilation, deleteCompilation } from '@/services/compilations'
 import { buildCompilePayload } from './lib'
+
+const DeleteCompilationSchema = z.object({
+  id: z.string().uuid(),
+})
+
+export async function deleteCompilationAction(
+  id: string
+): Promise<{ error?: string }> {
+  const parsed = DeleteCompilationSchema.safeParse({ id })
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0].message }
+  }
+
+  try {
+    await deleteCompilation(parsed.data.id)
+  } catch (err) {
+    if (err instanceof ApiError) {
+      if (err.status === 404) {
+        // Already gone — treat as removed
+        revalidatePath('/history')
+        return {}
+      }
+      if (err.status === 409) {
+        return {
+          error: 'Cannot delete a compilation that is currently running',
+        }
+      }
+      return { error: err.message }
+    }
+    throw err
+  }
+
+  revalidatePath('/history')
+  return {}
+}
 
 const ClipSnapshotSchema = z.object({
   id: z.string().min(1),

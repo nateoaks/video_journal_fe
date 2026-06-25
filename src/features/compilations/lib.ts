@@ -4,6 +4,7 @@ import type {
   CompilationSseEvent,
   CreateCompilationInput,
 } from '@/types/compilation'
+import type { BadgeProps } from '@/components/ui'
 
 const TERMINAL_STATUSES: Set<CompilationStatus> = new Set([
   'complete',
@@ -77,6 +78,33 @@ export function formatDuration(seconds: number | null): string {
 export function downloadFilename(): string {
   const date = new Date().toISOString().slice(0, 10)
   return `video-journal-${date}.mp4`
+}
+
+/**
+ * Returns a label and Badge variant for a given compilation status.
+ */
+export function statusBadge(status: CompilationStatus): {
+  label: string
+  variant: BadgeProps['variant']
+} {
+  switch (status) {
+    case 'complete':
+      return { label: 'Complete', variant: 'default' }
+    case 'failed':
+      return { label: 'Failed', variant: 'failed' }
+    default:
+      return {
+        label: status.charAt(0).toUpperCase() + status.slice(1),
+        variant: 'processing',
+      }
+  }
+}
+
+/**
+ * Returns a human-readable description of the audio mix mode.
+ */
+export function formatMixMode(mixClipAudio: boolean): string {
+  return mixClipAudio ? 'Clip audio mixed in' : 'Soundtrack only'
 }
 
 /**
