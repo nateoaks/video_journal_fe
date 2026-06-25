@@ -47,6 +47,8 @@ src/
 │   │   │   └── index.ts
 │   │   ├── Badge/
 │   │   ├── Input/
+│   │   ├── Switch/                     ← Toggle control
+│   │   ├── Slider/                     ← Range input control
 │   │   ├── ... (one folder per component)
 │   │   └── index.ts                    ← Barrel export for all ui/ components
 │   │

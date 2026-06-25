@@ -146,6 +146,20 @@ export const Disabled: Story = {
 
 ---
 
+## Available UI Primitives
+
+Current primitives in `src/components/ui/`:
+
+- **Button** — Primary action button with size and variant control
+- **Badge** — Status/label display with variant states
+- **Input** — Text input field
+- **Switch** — Toggle control (on/off state) using Base UI
+- **Slider** — Range slider with configurable min/max and step
+- **ProgressBar** — Progress visualization
+- **TaskItem** — Single task row display (project-specific)
+
+---
+
 ## Step-by-Step: Adding a New UI Component
 
 **Pre-flight check — before writing any new primitive code:**

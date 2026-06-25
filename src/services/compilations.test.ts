@@ -33,6 +33,8 @@ describe('compilations service', () => {
       const input = {
         clips: [{ id: 'clip_1', trim_in_s: 0, trim_out_s: 10 }],
         soundtrack_id: 'track_1',
+        mix_clip_audio: false,
+        clip_audio_volume: 0.4,
       }
       const result = await createCompilation(input)
 
@@ -51,6 +53,8 @@ describe('compilations service', () => {
       const input = {
         clips: [{ id: 'clip_1', trim_in_s: 0, trim_out_s: 10 }],
         soundtrack_id: 'track_1',
+        mix_clip_audio: false,
+        clip_audio_volume: 0.4,
       }
 
       const err = await createCompilation(input).catch((e: unknown) => e)

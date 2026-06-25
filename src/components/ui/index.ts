@@ -34,3 +34,15 @@ export {
   progressBarTrackVariants,
 } from './ProgressBar'
 export type { ProgressBarProps } from './ProgressBar'
+
+export { Switch, switchTrackVariants, switchThumbVariants } from './Switch'
+export type { SwitchProps } from './Switch'
+
+export {
+  Slider,
+  sliderTrackVariants,
+  sliderRailVariants,
+  sliderIndicatorVariants,
+  sliderThumbVariants,
+} from './Slider'
+export type { SliderProps } from './Slider'

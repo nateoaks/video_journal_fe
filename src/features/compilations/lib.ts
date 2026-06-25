@@ -25,10 +25,14 @@ export function canCompile(
 /**
  * Builds the payload for POST /api/compilations.
  * Filters to ready clips, sorts by sort_index, maps to ClipSnapshot.
+ * @param mixClipAudio - Whether to mix clip audio into the soundtrack.
+ * @param clipAudioVolume - Clip audio volume as an integer 0–100; divided by 100 for the API.
  */
 export function buildCompilePayload(
   clips: Clip[],
-  soundtrackId: string
+  soundtrackId: string,
+  mixClipAudio: boolean = false,
+  clipAudioVolume: number = 0
 ): CreateCompilationInput {
   const readyClips = clips
     .filter((c) => c.status === 'ready')
@@ -42,6 +46,8 @@ export function buildCompilePayload(
   return {
     clips: readyClips,
     soundtrack_id: soundtrackId,
+    mix_clip_audio: mixClipAudio,
+    clip_audio_volume: clipAudioVolume / 100,
   }
 }
 

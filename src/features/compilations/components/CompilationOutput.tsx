@@ -55,6 +55,14 @@ export function CompilationOutput({
           {clipCount} {clipCount === 1 ? 'clip' : 'clips'}
         </span>
         {soundtrackTitle && <span>{soundtrackTitle}</span>}
+        {(compilation.mix_clip_audio ?? false) ? (
+          <span>
+            Clip audio mixed in ·{' '}
+            {Math.round((compilation.clip_audio_volume ?? 0) * 100)}%
+          </span>
+        ) : (
+          <span>Soundtrack only</span>
+        )}
       </div>
 
       <a

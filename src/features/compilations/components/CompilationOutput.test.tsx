@@ -132,6 +132,52 @@ describe('CompilationOutput', () => {
       )
       expect(screen.getByText('0:00')).toBeInTheDocument()
     })
+
+    it('renders "Soundtrack only" when mix_clip_audio is false', () => {
+      render(
+        <CompilationOutput
+          compilation={makeCompilation({ mix_clip_audio: false })}
+          soundtrackTitle={null}
+        />
+      )
+      expect(screen.getByText('Soundtrack only')).toBeInTheDocument()
+    })
+
+    it('renders "Soundtrack only" when mix_clip_audio is undefined (backward compat)', () => {
+      render(
+        <CompilationOutput
+          compilation={makeCompilation()}
+          soundtrackTitle={null}
+        />
+      )
+      expect(screen.getByText('Soundtrack only')).toBeInTheDocument()
+    })
+
+    it('renders clip audio mixed label with correct percentage when mix_clip_audio is true', () => {
+      render(
+        <CompilationOutput
+          compilation={makeCompilation({
+            mix_clip_audio: true,
+            clip_audio_volume: 0.4,
+          })}
+          soundtrackTitle={null}
+        />
+      )
+      expect(screen.getByText('Clip audio mixed in · 40%')).toBeInTheDocument()
+    })
+
+    it('rounds clip_audio_volume percentage', () => {
+      render(
+        <CompilationOutput
+          compilation={makeCompilation({
+            mix_clip_audio: true,
+            clip_audio_volume: 0.333,
+          })}
+          soundtrackTitle={null}
+        />
+      )
+      expect(screen.getByText('Clip audio mixed in · 33%')).toBeInTheDocument()
+    })
   })
 
   describe('failed state', () => {
