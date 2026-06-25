@@ -38,7 +38,7 @@ export async function SoundtracksPage() {
         <EmptyState
           icon={<MusicIcon />}
           title="No soundtracks yet"
-          description="Upload your first audio file to get started."
+          description="Upload an audio file above. A soundtrack is required before you can compile your clips."
         />
       ) : (
         <SoundtrackList soundtracks={soundtracks} />

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { CompilationOutput } from './CompilationOutput'
 import type { Compilation } from '@/types/compilation'
 
@@ -194,7 +194,7 @@ describe('CompilationOutput', () => {
       expect(video).toBeNull()
     })
 
-    it('displays the error message', () => {
+    it('displays the error message after expanding details', () => {
       render(
         <CompilationOutput
           compilation={makeCompilation({
@@ -204,6 +204,8 @@ describe('CompilationOutput', () => {
           soundtrackTitle={null}
         />
       )
+      // Details are collapsed by default — expand them first
+      fireEvent.click(screen.getByRole('button', { name: /show details/i }))
       expect(screen.getByText('Codec not supported')).toBeInTheDocument()
     })
 
