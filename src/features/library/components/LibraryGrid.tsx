@@ -28,7 +28,7 @@ export function LibraryGrid({ clips }: LibraryGridProps) {
           />
         )
 
-        if (clip.status === 'ready') {
+        if (clip.status === 'ready' || clip.status === 'failed') {
           return (
             <Link
               key={clip.id}

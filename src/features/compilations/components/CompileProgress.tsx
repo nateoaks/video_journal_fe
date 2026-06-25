@@ -1,4 +1,5 @@
 import { ProgressBar } from '@/components/ui'
+import { ErrorDetails } from '@/components/composite'
 import type { CompilationStatus } from '@/types/compilation'
 import { cn } from '@/lib/utils'
 
@@ -50,7 +51,7 @@ export function CompileProgress({
         value={Math.floor(progress)}
         variant={progressVariant(status)}
       />
-      {error && <p className="text-destructive text-xs">{error}</p>}
+      {error && <ErrorDetails message="Compilation failed" details={error} />}
     </div>
   )
 }

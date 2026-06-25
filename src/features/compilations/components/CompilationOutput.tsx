@@ -1,6 +1,7 @@
 'use client'
 
 import { buttonVariants } from '@/components/ui'
+import { ErrorDetails } from '@/components/composite'
 import { compilationVideoPath } from '@/services'
 import type { Compilation } from '@/types/compilation'
 import { formatDuration, downloadFilename } from '../lib'
@@ -16,14 +17,10 @@ export function CompilationOutput({
 }: CompilationOutputProps) {
   if (compilation.status === 'failed') {
     return (
-      <div className="flex flex-col gap-2">
-        <p className="text-destructive text-sm font-medium">
-          Compilation failed
-        </p>
-        {compilation.error && (
-          <p className="text-muted-foreground text-sm">{compilation.error}</p>
-        )}
-      </div>
+      <ErrorDetails
+        message="Compilation failed"
+        details={compilation.error ?? null}
+      />
     )
   }
 

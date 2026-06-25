@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { toast } from 'sonner'
 import { Button, Switch, Slider } from '@/components/ui'
 import type { Clip } from '@/types/clip'
@@ -127,6 +128,19 @@ export function CompileBar({
         >
           {isPending ? 'Starting…' : 'Compile'}
         </Button>
+
+        {!soundtrackId && !isRunning && !isPending && (
+          <p className="text-muted-foreground text-sm">
+            A soundtrack is required to compile.{' '}
+            <Link
+              href="/soundtracks"
+              className="hover:text-foreground underline underline-offset-2 transition-colors"
+            >
+              Upload one
+            </Link>{' '}
+            to get started.
+          </p>
+        )}
 
         {conflictMessage && (
           <p className="text-muted-foreground text-sm">{conflictMessage}</p>

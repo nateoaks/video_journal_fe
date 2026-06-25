@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { toast } from 'sonner'
 import { usePolling } from '@/hooks/usePolling'
 import { Badge, Button, Modal, CompilationRow } from '@/components/ui'
+import { ErrorDetails } from '@/components/composite'
 import { compilationVideoPath } from '@/services'
 import { deleteCompilationAction } from '../actions'
 import { isTerminal, statusBadge, formatMixMode, formatDuration } from '../lib'
@@ -97,7 +98,14 @@ export function HistoryList({
                 }
                 soundtrackLabel={soundtrackLabel}
                 mixMode={formatMixMode(compilation.mix_clip_audio)}
-                errorText={compilation.error}
+                error={
+                  compilation.error ? (
+                    <ErrorDetails
+                      message="Compilation failed"
+                      details={compilation.error}
+                    />
+                  ) : null
+                }
                 actions={actions}
               />
             </li>

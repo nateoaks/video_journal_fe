@@ -160,6 +160,16 @@ Current primitives in `src/components/ui/`:
 
 ---
 
+## Available Composite Components
+
+Current composites in `src/components/composite/`:
+
+- **ErrorState** — Centered error display with optional icon, title, description, and action button
+- **ErrorDetails** — Collapsible error message with optional raw error details/logs
+- **EmptyState** — Centered empty state display for when no data is available
+
+---
+
 ## Step-by-Step: Adding a New UI Component
 
 **Pre-flight check — before writing any new primitive code:**

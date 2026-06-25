@@ -28,7 +28,8 @@ export interface CompilationRowProps
   duration?: string | null
   soundtrackLabel?: string | null
   mixMode?: string
-  errorText?: string | null
+  /** Error content to render below the metadata. Pass an `ErrorDetails` composite for collapsible stderr. */
+  error?: React.ReactNode
   actions?: React.ReactNode
 }
 
@@ -38,7 +39,7 @@ export function CompilationRow({
   duration,
   soundtrackLabel,
   mixMode,
-  errorText,
+  error,
   actions,
   className,
   ...props
@@ -73,9 +74,7 @@ export function CompilationRow({
           </p>
         )}
         {mixMode && <p className="text-muted-foreground text-xs">{mixMode}</p>}
-        {errorText && (
-          <p className="text-destructive text-xs break-words">{errorText}</p>
-        )}
+        {error}
       </div>
       {actions && (
         <div className="flex shrink-0 items-center gap-2">{actions}</div>

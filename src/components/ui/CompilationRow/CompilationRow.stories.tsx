@@ -40,7 +40,11 @@ export const Failed: Story = {
   args: {
     ...baseArgs,
     status: 'failed',
-    errorText: 'Encoding failed: unable to read source clip at position 3.',
+    error: (
+      <p className="text-destructive text-xs break-words">
+        Encoding failed: unable to read source clip at position 3.
+      </p>
+    ),
   },
 }
 
@@ -55,7 +59,13 @@ export const LongError: Story = {
   args: {
     ...baseArgs,
     status: 'failed',
-    errorText:
-      'An internal error occurred during compilation. The encoding pipeline returned a non-zero exit code (137) — this typically means the process was killed due to memory pressure. Please try again with fewer clips or shorter durations.',
+    error: (
+      <p className="text-destructive text-xs break-words">
+        An internal error occurred during compilation. The encoding pipeline
+        returned a non-zero exit code (137) — this typically means the process
+        was killed due to memory pressure. Please try again with fewer clips or
+        shorter durations.
+      </p>
+    ),
   },
 }
