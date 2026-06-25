@@ -15,17 +15,43 @@ const ClipSnapshotSchema = z.object({
 const StartCompilationSchema = z.object({
   clips: z.array(ClipSnapshotSchema).min(1),
   soundtrackId: z.string().min(1),
+  mixClipAudio: z.boolean(),
+  clipAudioVolume: z.number().int().min(0).max(100),
 })
 
 export async function startCompilation(
   clips: Clip[],
-  soundtrackId: string
+  soundtrackId: string,
+  mixClipAudio: boolean = false,
+  clipAudioVolume: number = 0
 ): Promise<{ id: string } | { error: string; conflict?: boolean }> {
-  const payload = buildCompilePayload(clips, soundtrackId)
+  // Validate scalar inputs and that at least one clip exists before building payload
+  const preCheck = z
+    .object({
+      soundtrackId: z.string().min(1),
+      mixClipAudio: z.boolean(),
+      clipAudioVolume: z.number().int().min(0).max(100),
+      clips: z.array(z.unknown()).min(1),
+    })
+    .safeParse({ soundtrackId, mixClipAudio, clipAudioVolume, clips })
 
+  if (!preCheck.success) {
+    return { error: preCheck.error.issues[0]?.message ?? 'Invalid input' }
+  }
+
+  const payload = buildCompilePayload(
+    clips,
+    soundtrackId,
+    mixClipAudio,
+    clipAudioVolume
+  )
+
+  // Validate the processed payload clips (nulls resolved by buildCompilePayload)
   const parsed = StartCompilationSchema.safeParse({
     clips: payload.clips,
     soundtrackId,
+    mixClipAudio,
+    clipAudioVolume,
   })
 
   if (!parsed.success) {

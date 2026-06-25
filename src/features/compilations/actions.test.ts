@@ -53,6 +53,35 @@ describe('startCompilation', () => {
     expect(mockCreateCompilation).toHaveBeenCalledOnce()
   })
 
+  it('returns { id } with mixClipAudio and clipAudioVolume', async () => {
+    mockCreateCompilation.mockResolvedValueOnce({ id: 'comp_2' })
+
+    const clips = [makeClip({ status: 'ready' })]
+    const result = await startCompilation(clips, 'track_1', true, 50)
+
+    expect(result).toEqual({ id: 'comp_2' })
+    expect(mockCreateCompilation).toHaveBeenCalledWith(
+      expect.objectContaining({
+        mix_clip_audio: true,
+        clip_audio_volume: 0.5,
+      })
+    )
+  })
+
+  it('passes mix_clip_audio: false and clip_audio_volume: 0 by default', async () => {
+    mockCreateCompilation.mockResolvedValueOnce({ id: 'comp_3' })
+
+    const clips = [makeClip({ status: 'ready' })]
+    await startCompilation(clips, 'track_1')
+
+    expect(mockCreateCompilation).toHaveBeenCalledWith(
+      expect.objectContaining({
+        mix_clip_audio: false,
+        clip_audio_volume: 0,
+      })
+    )
+  })
+
   it('returns { error, conflict: true } on 409 ApiError', async () => {
     mockCreateCompilation.mockRejectedValueOnce(
       new ApiError(409, 'conflict', 'Already running')
@@ -90,6 +119,18 @@ describe('startCompilation', () => {
   it('returns validation error when soundtrackId is empty', async () => {
     const clips = [makeClip({ status: 'ready' })]
     const result = await startCompilation(clips, '')
+    expect('error' in result).toBe(true)
+  })
+
+  it('returns validation error when clipAudioVolume is out of range (> 100)', async () => {
+    const clips = [makeClip({ status: 'ready' })]
+    const result = await startCompilation(clips, 'track_1', true, 150)
+    expect('error' in result).toBe(true)
+  })
+
+  it('returns validation error when clipAudioVolume is out of range (< 0)', async () => {
+    const clips = [makeClip({ status: 'ready' })]
+    const result = await startCompilation(clips, 'track_1', true, -5)
     expect('error' in result).toBe(true)
   })
 })

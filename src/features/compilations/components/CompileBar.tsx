@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { Button } from '@/components/ui'
+import { Button, Switch, Slider } from '@/components/ui'
 import type { Clip } from '@/types/clip'
 import type { Compilation } from '@/types/compilation'
 import { useSelectedSoundtrack } from '@/hooks/useSelectedSoundtrack'
@@ -38,6 +38,8 @@ export function CompileBar({
   )
   const [isPending, startTransition] = useTransition()
   const [conflictMessage, setConflictMessage] = useState<string | null>(null)
+  const [mixClipAudio, setMixClipAudio] = useState(false)
+  const [clipAudioVolume, setClipAudioVolume] = useState(40)
 
   // Active compilation ID: prefer server-passed (late-join), then local
   const activeCompilationId = compilation?.id ?? localCompilationId ?? null
@@ -85,7 +87,12 @@ export function CompileBar({
     setConflictMessage(null)
 
     startTransition(async () => {
-      const result = await startCompilation(clips, soundtrackId)
+      const result = await startCompilation(
+        clips,
+        soundtrackId,
+        mixClipAudio,
+        clipAudioVolume
+      )
 
       if ('error' in result) {
         if (result.conflict) {
@@ -116,6 +123,35 @@ export function CompileBar({
 
         {conflictMessage && (
           <p className="text-muted-foreground text-sm">{conflictMessage}</p>
+        )}
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <label className="flex items-center gap-3">
+          <Switch
+            checked={mixClipAudio}
+            onCheckedChange={setMixClipAudio}
+            disabled={isRunning || isPending}
+          />
+          <span className="text-sm">Mix in clip audio</span>
+        </label>
+
+        {mixClipAudio && (
+          <div className="flex items-center gap-3">
+            <span className="text-muted-foreground w-24 shrink-0 text-sm">
+              Volume: {clipAudioVolume}%
+            </span>
+            <Slider
+              value={clipAudioVolume}
+              onValueChange={setClipAudioVolume}
+              min={0}
+              max={100}
+              step={1}
+              disabled={isRunning || isPending}
+              aria-label="Clip audio volume"
+              className="flex-1"
+            />
+          </div>
         )}
       </div>
 

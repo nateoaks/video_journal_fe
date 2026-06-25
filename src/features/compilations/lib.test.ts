@@ -128,6 +128,32 @@ describe('buildCompilePayload', () => {
     const payload = buildCompilePayload([makeClip()], 'track_abc')
     expect(payload.soundtrack_id).toBe('track_abc')
   })
+
+  it('sets mix_clip_audio: false and clip_audio_volume: 0 by default', () => {
+    const payload = buildCompilePayload([makeClip()], 'track_1')
+    expect(payload.mix_clip_audio).toBe(false)
+    expect(payload.clip_audio_volume).toBe(0)
+  })
+
+  it('sets mix_clip_audio: true when passed', () => {
+    const payload = buildCompilePayload([makeClip()], 'track_1', true, 40)
+    expect(payload.mix_clip_audio).toBe(true)
+  })
+
+  it('divides clipAudioVolume by 100 to produce clip_audio_volume', () => {
+    const payload = buildCompilePayload([makeClip()], 'track_1', true, 40)
+    expect(payload.clip_audio_volume).toBeCloseTo(0.4)
+  })
+
+  it('correctly divides 100 to 1.0', () => {
+    const payload = buildCompilePayload([makeClip()], 'track_1', true, 100)
+    expect(payload.clip_audio_volume).toBe(1.0)
+  })
+
+  it('correctly divides 0 to 0.0', () => {
+    const payload = buildCompilePayload([makeClip()], 'track_1', true, 0)
+    expect(payload.clip_audio_volume).toBe(0.0)
+  })
 })
 
 describe('isTerminal', () => {

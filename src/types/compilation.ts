@@ -32,6 +32,17 @@ export interface Compilation {
    * Populated once the compilation reaches a terminal state.
    */
   clips: CompilationClip[]
+  /**
+   * Whether clip audio was mixed into the soundtrack.
+   * Undefined for older compilations created before this feature.
+   */
+  mix_clip_audio?: boolean
+  /**
+   * Clip audio volume as a fraction (0–1).
+   * Only meaningful when mix_clip_audio is true.
+   * Undefined for older compilations created before this feature.
+   */
+  clip_audio_volume?: number
 }
 
 export interface ClipSnapshot {
@@ -43,6 +54,8 @@ export interface ClipSnapshot {
 export interface CreateCompilationInput {
   clips: ClipSnapshot[]
   soundtrack_id: string
+  mix_clip_audio: boolean
+  clip_audio_volume: number
 }
 
 export interface CompilationSseEvent {
