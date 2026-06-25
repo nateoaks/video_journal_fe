@@ -4,12 +4,18 @@ import type { Clip } from '@/types/clip'
 
 vi.mock('@/services/compilations', () => ({
   createCompilation: vi.fn(),
+  deleteCompilation: vi.fn(),
 }))
 
-import { createCompilation } from '@/services/compilations'
-import { startCompilation } from './actions'
+vi.mock('next/cache', () => ({
+  revalidatePath: vi.fn(),
+}))
+
+import { createCompilation, deleteCompilation } from '@/services/compilations'
+import { startCompilation, deleteCompilationAction } from './actions'
 
 const mockCreateCompilation = createCompilation as ReturnType<typeof vi.fn>
+const mockDeleteCompilation = deleteCompilation as ReturnType<typeof vi.fn>
 
 function makeClip(overrides: Partial<Clip> = {}): Clip {
   return {
@@ -31,6 +37,65 @@ function makeClip(overrides: Partial<Clip> = {}): Clip {
     ...overrides,
   }
 }
+
+describe('deleteCompilationAction', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('returns validation error for non-UUID id', async () => {
+    const result = await deleteCompilationAction('not-a-uuid')
+    expect(result.error).toBeDefined()
+  })
+
+  it('returns {} on success', async () => {
+    mockDeleteCompilation.mockResolvedValueOnce(undefined)
+    const result = await deleteCompilationAction(
+      '550e8400-e29b-41d4-a716-446655440001'
+    )
+    expect(result).toEqual({})
+    expect(mockDeleteCompilation).toHaveBeenCalledWith(
+      '550e8400-e29b-41d4-a716-446655440001'
+    )
+  })
+
+  it('returns {} on 404 (treat as removed)', async () => {
+    mockDeleteCompilation.mockRejectedValueOnce(
+      new ApiError(404, 'not_found', 'Not found')
+    )
+    const result = await deleteCompilationAction(
+      '550e8400-e29b-41d4-a716-446655440001'
+    )
+    expect(result).toEqual({})
+  })
+
+  it('returns error message on 409 conflict', async () => {
+    mockDeleteCompilation.mockRejectedValueOnce(
+      new ApiError(409, 'conflict', 'Running')
+    )
+    const result = await deleteCompilationAction(
+      '550e8400-e29b-41d4-a716-446655440001'
+    )
+    expect(result.error).toMatch(/running/i)
+  })
+
+  it('returns error message on other ApiError', async () => {
+    mockDeleteCompilation.mockRejectedValueOnce(
+      new ApiError(500, 'server_error', 'Internal error')
+    )
+    const result = await deleteCompilationAction(
+      '550e8400-e29b-41d4-a716-446655440001'
+    )
+    expect(result.error).toBe('Internal error')
+  })
+
+  it('rethrows non-ApiError', async () => {
+    mockDeleteCompilation.mockRejectedValueOnce(new Error('network failure'))
+    await expect(
+      deleteCompilationAction('550e8400-e29b-41d4-a716-446655440001')
+    ).rejects.toThrow('network failure')
+  })
+})
 
 describe('startCompilation', () => {
   beforeEach(() => {

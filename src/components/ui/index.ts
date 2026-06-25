@@ -1,3 +1,6 @@
+export { CompilationRow, compilationRowVariants } from './CompilationRow'
+export type { CompilationRowProps } from './CompilationRow'
+
 export { Button, buttonVariants } from './Button'
 export type { ButtonProps } from './Button'
 

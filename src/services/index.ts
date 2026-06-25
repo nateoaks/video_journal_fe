@@ -21,6 +21,8 @@ export {
 export {
   createCompilation,
   getCompilation,
+  listCompilations,
+  deleteCompilation,
   compilationEventsPath,
   compilationVideoPath,
 } from './compilations'

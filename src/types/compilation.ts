@@ -1,4 +1,9 @@
-export type CompilationStatus = 'queued' | 'running' | 'complete' | 'failed'
+export type CompilationStatus =
+  | 'queued'
+  | 'pending'
+  | 'running'
+  | 'complete'
+  | 'failed'
 
 export interface CompilationClip {
   clip_id: string
@@ -7,20 +12,21 @@ export interface CompilationClip {
    * Trim start in seconds (inclusive).
    * If 0, clip plays from the beginning.
    */
-  trim_in_s: number
+  trim_in_s: number | null
   /**
    * Trim end in seconds (exclusive).
    * The clip stops before reaching this time.
    */
-  trim_out_s: number
+  trim_out_s: number | null
 }
 
 export interface Compilation {
   id: string
   status: CompilationStatus
-  progress: number
+  progress?: number
   soundtrack_id?: string | null
-  error_message?: string
+  /** Error message from the backend (non-terminal or terminal failure). */
+  error: string | null
   output_key?: string
   /**
    * Final compiled video duration in seconds.
@@ -34,15 +40,17 @@ export interface Compilation {
   clips: CompilationClip[]
   /**
    * Whether clip audio was mixed into the soundtrack.
-   * Undefined for older compilations created before this feature.
    */
-  mix_clip_audio?: boolean
+  mix_clip_audio: boolean
   /**
    * Clip audio volume as a fraction (0–1).
    * Only meaningful when mix_clip_audio is true.
-   * Undefined for older compilations created before this feature.
    */
-  clip_audio_volume?: number
+  clip_audio_volume: number
+  /** ISO timestamp when the compilation was created. */
+  created_at: string
+  /** ISO timestamp when the compilation reached a terminal state. Null otherwise. */
+  completed_at: string | null
 }
 
 export interface ClipSnapshot {
